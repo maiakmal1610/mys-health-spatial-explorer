@@ -14,7 +14,8 @@ from pathlib import Path
 
 # Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
-GEOJSON_INPUT = Path("C:/Users/DataMicron/Desktop/kri/data/boundaries/geoBoundaries-MYS-ADM2.geojson")
+LOCAL_GEOJSON = BASE_DIR / "pipeline" / "data" / "geoBoundaries-MYS-ADM2.geojson"
+GEOJSON_INPUT = LOCAL_GEOJSON if LOCAL_GEOJSON.exists() else Path("C:/Users/DataMicron/Desktop/kri/data/boundaries/geoBoundaries-MYS-ADM2.geojson")
 OUTPUT_DIR = BASE_DIR / "public" / "data"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_GEOJSON = OUTPUT_DIR / "districts_healthcare.geojson"

@@ -1,10 +1,13 @@
+from pathlib import Path
 import json
 import re
 import csv
 import duckdb
 
 # 1. Load GeoJSON features from ADM2
-geojson_path = "C:/Users/DataMicron/Desktop/kri/data/boundaries/geoBoundaries-MYS-ADM2.geojson"
+base_dir = Path(__file__).resolve().parent
+local_path = base_dir / "data" / "geoBoundaries-MYS-ADM2.geojson"
+geojson_path = local_path if local_path.exists() else Path("C:/Users/DataMicron/Desktop/kri/data/boundaries/geoBoundaries-MYS-ADM2.geojson")
 with open(geojson_path, "r", encoding="utf-8") as f:
     geojson_data = json.load(f)
 
