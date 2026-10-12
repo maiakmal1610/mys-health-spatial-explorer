@@ -142,7 +142,6 @@ The optimized static production assets will be generated in `dist/`.
 
 ## 👤 Author & Contact
 
-**Akmal**  
-*Computational Researcher & Data Product Engineer*  
+Mai
 GitHub: [@maiakmal1610](https://github.com/maiakmal1610)  
 Live Geoportal: [https://maiakmal1610.github.io/mys-health-spatial-explorer/](https://maiakmal1610.github.io/mys-health-spatial-explorer/)
