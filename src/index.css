@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GeoStudio Design System - Professional GIS Platform */
+
+@layer base {
+  :root {
+    /* Core palette - Cartographic blues and teals */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Primary - Deep ocean blue */
+    --primary: 213 94% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Slate gray */
+    --secondary: 214 15% 94%;
+    --secondary-foreground: 215 25% 27%;
+
+    /* Muted surfaces */
+    --muted: 214 15% 94%;
+    --muted-foreground: 215 15% 50%;
+
+    /* Accent - Teal for highlights */
+    --accent: 172 66% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 20% 90%;
+    --input: 214 20% 90%;
+    --ring: 213 94% 45%;
+
+    --radius: 0.625rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 215 15% 40%;
+    --sidebar-primary: 213 94% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 213 94% 97%;
+    --sidebar-accent-foreground: 213 94% 45%;
+    --sidebar-border: 214 20% 92%;
+    --sidebar-ring: 213 94% 45%;
+
+    /* Asset type badges */
+    --badge-map: 213 94% 95%;
+    --badge-map-foreground: 213 94% 35%;
+    --badge-dashboard: 265 89% 95%;
+    --badge-dashboard-foreground: 265 89% 40%;
+    --badge-workspace: 38 92% 93%;
+    --badge-workspace-foreground: 38 92% 35%;
+    --badge-vector: 142 71% 92%;
+    --badge-vector-foreground: 142 76% 30%;
+    --badge-raster: 172 66% 92%;
+    --badge-raster-foreground: 172 66% 30%;
+    --badge-satellite: 186 80% 92%;
+    --badge-satellite-foreground: 186 80% 30%;
+    --badge-aerial: 231 76% 93%;
+    --badge-aerial-foreground: 231 76% 40%;
+
+    /* Gradients */
+    --gradient-brand: linear-gradient(135deg, hsl(213 94% 45%), hsl(172 66% 45%));
+    --gradient-card-hover: linear-gradient(180deg, hsl(213 94% 98%), hsl(0 0% 100%));
+    --gradient-hero: linear-gradient(135deg, hsl(213 94% 45%) 0%, hsl(231 76% 50%) 50%, hsl(265 89% 50%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(215 25% 15% / 0.03);
+    --shadow-md: 0 4px 6px -1px hsl(215 25% 15% / 0.05), 0 2px 4px -2px hsl(215 25% 15% / 0.03);
+    --shadow-lg: 0 10px 15px -3px hsl(215 25% 15% / 0.08), 0 4px 6px -4px hsl(215 25% 15% / 0.03);
+    --shadow-card: 0 1px 3px 0 hsl(215 25% 15% / 0.04), 0 1px 2px -1px hsl(215 25% 15% / 0.04);
+    --shadow-card-hover: 0 8px 25px -5px hsl(213 94% 45% / 0.12), 0 4px 6px -4px hsl(215 25% 15% / 0.05);
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 213 94% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 172 66% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 213 94% 55%;
+
+    --sidebar-background: 222 47% 9%;
+    --sidebar-foreground: 215 20% 65%;
+    --sidebar-primary: 213 94% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 213 94% 55%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 213 94% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Asset card styles */
+  .asset-card {
+    @apply bg-card rounded-xl border border-border p-5 transition-all duration-200;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .asset-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    @apply border-primary/20;
+  }
+
+  /* Badge variants */
+  .badge-map {
+    background: hsl(var(--badge-map));
+    color: hsl(var(--badge-map-foreground));
+  }
+  
+  .badge-dashboard {
+    background: hsl(var(--badge-dashboard));
+    color: hsl(var(--badge-dashboard-foreground));
+  }
+  
+  .badge-workspace {
+    background: hsl(var(--badge-workspace));
+    color: hsl(var(--badge-workspace-foreground));
+  }
+  
+  .badge-vector {
+    background: hsl(var(--badge-vector));
+    color: hsl(var(--badge-vector-foreground));
+  }
+  
+  .badge-raster {
+    background: hsl(var(--badge-raster));
+    color: hsl(var(--badge-raster-foreground));
+  }
+  
+  .badge-satellite {
+    background: hsl(var(--badge-satellite));
+    color: hsl(var(--badge-satellite-foreground));
+  }
+  
+  .badge-aerial {
+    background: hsl(var(--badge-aerial));
+    color: hsl(var(--badge-aerial-foreground));
+  }
+
+  /* Sidebar active state */
+  .sidebar-item-active {
+    @apply text-primary bg-sidebar-accent border-r-2 border-primary;
+  }
+
+  /* Input focus states */
+  .input-geo {
+    @apply bg-secondary/50 border-transparent rounded-full text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary/50 focus:bg-card outline-none transition-all;
+  }
+
+  /* Button with gradient */
+  .btn-brand {
+    background: var(--gradient-brand);
+    @apply text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 hover:opacity-90;
+  }
+
+  /* Page content panel */
+  .content-panel {
+    @apply bg-card rounded-xl border border-border p-6;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Dropdown menu */
+  .dropdown-menu {
+    @apply bg-card rounded-lg border border-border py-1;
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Custom Leaflet Dark Theme Overrides */
+.leaflet-custom-tooltip {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(51, 65, 85, 0.8) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 0.75rem !important;
+  backdrop-filter: blur(8px) !important;
+  padding: 0 !important;
+}
+
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+  border-top-color: rgba(15, 23, 42, 0.95) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+.leaflet-container {
+  background: #020617 !important;
+  font-family: inherit !important;
+}
+
