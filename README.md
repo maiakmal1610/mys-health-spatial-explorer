@@ -16,10 +16,10 @@
 
 ## 🎯 Executive Summary 
 
-In national socioeconomic planning, headline statistics frequently mask severe spatial inequities. While Malaysia maintains an aggregate national hospital bed ratio hovering near standard baselines, access is starkly stratified across administrative boundaries.
+In national socioeconomic planning, headline statistics frequently mask severe spatial inequities. While Malaysia maintains an aggregate national hospital bed ratio hovering near standard baselines, access is starkly stratified across different state and district.
 
 Developed as a portfolio project, this project answers three foundational public policy questions:
-1. **Geographic Distribution:** Which administrative districts face critical bed deficits relative to their residential populations?
+1. **Geographic Distribution:** Which state or district face critical bed deficits relative to their residential populations?
 2. **Public vs. Private Polarization:** Where is public healthcare (Ministry of Health / KKM) the sole lifeline versus where does the private tertiary sector absorb caseloads?
 3. **Spatial Healthcare Deserts:** How do rapid-growth suburban perimeters and newly gazetted administrative districts cope without localized inpatient hospital infrastructure?
 
@@ -28,46 +28,18 @@ Developed as a portfolio project, this project answers three foundational public
 ## 💡 Key Empirical & Policy Findings
 
 * **Suburban & Peripheral Deficits:** Major urban spillover districts (e.g., Petaling, Hulu Langat, Gombak) face acute bed pressure per capita despite their proximity to state capitals, as population inflows outpace healthcare facility expansion.
-* **The "Zero-Bed" Referral Dependency:** 7 administrative districts (including *Bagan Datuk, Muallim, Selama, Kuala Nerus, Kalabakan, Kecil Lojing, and Telang Usan*) have zero gazetted inpatient hospital beds within their administrative borders, making residents entirely dependent on cross-boundary hospital referrals.
+* **The "Zero-Bed" Referral Dependency:** 7 administrative districts (including *Bagan Datuk, Muallim, Selama, Kuala Nerus, Kalabakan, Kecil Lojing, and Telang Usan*) have zero gazetted inpatient hospital beds within the district, making residents entirely dependent on cross-boundary hospital referrals.
 * **Extreme Public Sector Reliance:** While metropolitan centers in Selangor and Penang exhibit 35%–45% private healthcare absorption, rural Sabah and Sarawak rely almost **100% on public MoH facilities**, emphasizing the outsized role of fiscal federal healthcare spending in regional equity.
 
 ---
 
 ## 🏗️ Architecture & Data Pipeline
 
-The solution decouples heavy computational analytical processing from the browser client through a high-performance, reproducible two-tier architecture:
+The solution decouples computational analytical processing from the browser client through a high-performance, reproducible two-tier architecture:
 
-```mermaid
-flowchart TD
-    subgraph DataSources["1. Official Public Data Ingestion (Remote Cloud Parquet)"]
-        D1["MoH Hospital Bed Statistics<br/><code>storage.data.gov.my/healthcare/hospital_beds.parquet</code>"]
-        D2["DOSM District Population Projections<br/><code>storage.dosm.gov.my/population/population_district.parquet</code>"]
-        D3["Official ADM2 District Boundaries<br/><code>geoBoundaries-MYS-ADM2.geojson</code> (159 Polygons)"]
-    end
-
-    subgraph DuckDBPipeline["2. In-Memory Analytical Engine (DuckDB + Python 3.12)"]
-        E1["Direct Vectorized Parquet Scan via HTTPS<br/>(Zero Database Server Overhead)"]
-        E2["Entity Resolution & Boundary Matching Engine<br/>• Regex town-suffix stripping (e.g. 'Kinta (Ipoh)' → 'Kinta')<br/>• Morphological standardization ('Hulu' ↔ 'Ulu')<br/>• Deterministic alias mapping (100% match rate)"]
-        E3["Policy Metric Engine<br/>• Beds per 1,000 residents<br/>• MoH vs Non-MoH share %<br/>• WHO 2.0 guideline divergence"]
-        E4["Full Spatial Outer Join<br/>Preserving 100% of all 159 districts (Zero holes/gaps)"]
-    end
-
-    subgraph ClientDelivery["3. Interactive Spatial Geoportal (Vite + React 18 + Leaflet)"]
-        F1[("Optimized Spatial GeoJSON<br/>districts_healthcare.geojson (1.79 MB)")]
-        F2["Multi-Layer Choropleth Engine<br/>• Beds/1k • Total Beds • MoH Share %"]
-        F3["Dynamic Focus & Spotlighting<br/>(State Dimming & Selected District Highlight)"]
-        F4["Half-Height Compact Inspection Drawer<br/>(OpenDOSM Number Formatting & Policy Observations)"]
-        F5["Multi-Basemap Switcher<br/>(Google Streets/Hybrid/Terrain, Esri Satellite, Waze, OSM, Carto Dark)"]
-    end
-
-    D1 --> E1
-    D2 --> E1
-    D3 --> E2
-    E1 --> E2 --> E3 --> E4 --> F1 --> F2
-    F1 --> F3
-    F1 --> F4
-    F1 --> F5
-```
+<p align="center">
+  <img src="./health-spatial-diagram.png" alt="Malaysia Healthcare Equity Spatial Architecture" width="850" />
+</p>
 
 ---
 
@@ -104,7 +76,7 @@ The pipeline resolves this via an automated three-stage normalization algorithm:
 
 | Layer | Technology | Rationale |
 | :--- | :--- | :--- |
-| **Data Engine** | Python 3.12, DuckDB | Blazing fast, zero-dependency columnar OLAP queries on remote Parquet. |
+| **Data Engine** | Python 3.12, DuckDB | Fast, zero-dependency columnar OLAP queries on remote Parquet. |
 | **Frontend Framework** | React 18, TypeScript, Vite | Componentized UI with sub-second HMR and strict type safety. |
 | **Spatial Mapping** | Leaflet 1.9, Multi-provider Tiles | Smooth vector styling, custom canvas choropleths, and zero API-key dependencies. |
 | **Tile Providers** | Google Maps, Esri, Waze, OSM, CartoDB | 7 selectable raster basemaps spanning satellite imagery, terrain, and dark vector tiles. |
@@ -113,17 +85,10 @@ The pipeline resolves this via an automated three-stage normalization algorithm:
 
 ---
 
-## 📊 Interactive Geoportal Capabilities
+## 📊 Interactive Geoportal 
 
-* **Multi-Metric Choropleth Toggle:** Switch instantly between *Beds per 1,000 Residents*, *Absolute Bed Volume*, and *MoH Public Dependency %*.
 * **State & District Drilldown:** Filter across all 16 states & federal territories or search by district name.
-* **Contextual Spatial Spotlighting:**
-  * Selecting a state dims all out-of-state districts to 8% opacity.
-  * Selecting a district spotlights its boundary with a cyan stroke and 60% fill opacity.
-* **Smooth Camera Navigation:** Gentle pan navigation that keeps the current zoom context instead of jarring zooms.
-* **Compact Inspection Drawer:** Pinned header with scrollable body displaying population numbers formatted according to OpenDOSM standards (`203,800` without artificial `/1k` suffixes), bed breakdown bars, and automated policy observations comparing against the WHO 2.0 beds / 1k target.
-* **Regional Jump Shortcuts:** One-click spatial presets for *All Malaysia*, *Peninsular Malaysia*, and *Sabah & Sarawak*.
-
+* **Attribute Cards:** Display comprehensive healthcare metrics for selected areas.
 ---
 
 ## 🚀 Local Development & Reproduction
