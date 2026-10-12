@@ -14,11 +14,11 @@
 
 ---
 
-## 🎯 Executive Summary & Khazanah Research Institute Policy Context
+## 🎯 Executive Summary 
 
 In national socioeconomic planning, headline statistics frequently mask severe spatial inequities. While Malaysia maintains an aggregate national hospital bed ratio hovering near standard baselines, access is starkly stratified across administrative boundaries.
 
-Developed as a showcase piece for the **Khazanah Research Institute (KRI) Computational Track**, this project answers three foundational public policy questions:
+Developed as a portfolio project, this project answers three foundational public policy questions:
 1. **Geographic Distribution:** Which administrative districts face critical bed deficits relative to their residential populations?
 2. **Public vs. Private Polarization:** Where is public healthcare (Ministry of Health / KKM) the sole lifeline versus where does the private tertiary sector absorb caseloads?
 3. **Spatial Healthcare Deserts:** How do rapid-growth suburban perimeters and newly gazetted administrative districts cope without localized inpatient hospital infrastructure?
